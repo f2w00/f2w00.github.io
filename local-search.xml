@@ -4,38 +4,27 @@
   
   
   <entry>
-    <title>testing</title>
-    <link href="/2023/12/25/testing/"/>
-    <url>/2023/12/25/testing/</url>
+    <title>mysql在ubuntu上的安装</title>
+    <link href="/2023/12/27/mysql%E5%9C%A8ubuntu%E4%B8%8A%E7%9A%84%E5%AE%89%E8%A3%85/"/>
+    <url>/2023/12/27/mysql%E5%9C%A8ubuntu%E4%B8%8A%E7%9A%84%E5%AE%89%E8%A3%85/</url>
     
-    <content type="html"><![CDATA[<h1 id="1"><a href="#1" class="headerlink" title="1"></a>1</h1><ol><li><p>是酱紫的</p></li><li><p>没有任何问题</p></li></ol>]]></content>
+    <content type="html"><![CDATA[<h1 id="mysql在ubuntu上的安装"><a href="#mysql在ubuntu上的安装" class="headerlink" title="mysql在ubuntu上的安装"></a>mysql在ubuntu上的安装</h1><blockquote><p>环境:kubuntu23.04,kde5.27,安装默认mysql8</p></blockquote><h2 id="默认安装情况下"><a href="#默认安装情况下" class="headerlink" title="默认安装情况下"></a>默认安装情况下</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">#</span><span class="language-bash">安装mysql</span><br><br>sudo apt install mysql-server<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_">#</span><span class="language-bash">验证安装</span><br><br>sudo systemctl mysql-server<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_">#</span><span class="language-bash">启动</span><br><br>sudo /etc/init.d/mysql start<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_">#</span><span class="language-bash">配置安全设置,默认为中等强度,8位长度,包含大小写字母和特殊字符,例如@Root314</span><br><br>sudo mysql_secure_installation<br></code></pre></td></tr></table></figure><p>安全设置按提示操作即可,此时已经安装好了mysql,可以使用</p><p>sudo mysql -u root -p</p><p>并输入密码来查看是否可以正常连接</p><h2 id="没有设定root用户密码-需要新建用户"><a href="#没有设定root用户密码-需要新建用户" class="headerlink" title="没有设定root用户密码&#x2F;需要新建用户"></a>没有设定root用户密码&#x2F;需要新建用户</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">#</span><span class="language-bash">查看默认安装的mysql的用户名和密码</span><br><br>sudo cat /etc/mysql/debian.cnf<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_">#</span><span class="language-bash">登录mysql用户,并输入刚才查到的密码</span><br><br>mysql -u debian-sys-maint -p<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_">#</span><span class="language-bash">进入mysql</span><br><br>use mysql<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_">#</span><span class="language-bash">刷新权限；</span><br><br>flush privileges;<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_">#</span><span class="language-bash">修改用户名和密码；</span><br><br>ALTER USER &#x27;root&#x27;@&#x27;localhost&#x27; IDENTIFIED WITH caching_sha2_password BY &#x27;@Root314&#x27;;<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_">#</span><span class="language-bash">刷新权限</span><br><br>flush privileges;<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_">#</span><span class="language-bash">退出</span><br><br>quit;<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_">#</span><span class="language-bash">重启 MySQL</span><br><br>service mysql restart;<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_">#</span><span class="language-bash">进入 MySQL ,回车后输入自己修改后的密码即可</span><br><br>msql -u root -p;<br></code></pre></td></tr></table></figure>]]></content>
     
     
     <categories>
       
-      <category>map</category>
+      <category>ubuntu折腾</category>
       
     </categories>
     
     
     <tags>
       
-      <tag>ps3</tag>
+      <tag>mysql</tag>
+      
+      <tag>ubuntu</tag>
       
     </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>Hello World</title>
-    <link href="/2023/12/25/hello-world/"/>
-    <url>/2023/12/25/hello-world/</url>
-    
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
-    
-    
     
   </entry>
   
